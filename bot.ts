@@ -9,7 +9,7 @@ if (!BOT_TOKEN) throw new Error("Missing BOT_TOKEN");
 const bot = new Bot(BOT_TOKEN);
 
 bot.command("start", (ctx) => {
-  ctx.reply("Greeting, Beer lovers!");
+  ctx.reply("Yo, what's up?");
 });
 
 bot.catch((err) => {
