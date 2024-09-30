@@ -16,19 +16,3 @@ if (Deno.env.get("MODE") === "production" && BOT_WEBHOOK) {
 } else {
   bot.start();
 }
-
-Deno.serve((req) => {
-  const url = new URL(req.url);
-  const pathname = url.pathname;
-  console.log(pathname);
-
-  switch (pathname) {
-    case "/":
-      return new Response("Hello");
-    case "/checkin-office":
-      console.log(req);
-      return new Response("Welcome");
-    default:
-      return new Response("", { status: 404 });
-  }
-});
