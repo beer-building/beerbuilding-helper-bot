@@ -1,18 +1,27 @@
 import { Middleware } from "grammy";
-import { initEnv } from "../helpers/index.ts";
+import { getVideoUrlFromLink, initEnv } from "../helpers/index.ts";
 
 await initEnv();
+
+const RAPID_API_KEY = Deno.env.get("RAPID_API_KEY");
 
 export class InstagramModule {
   constructor(private url: string) {}
 
   async getVideoUrl(): Promise<string> {
     const res = await fetch(
-      `https://tiktod.eu.org/instagram/download?url=${this.url}`
+      `https://social-media-video-downloader.p.rapidapi.com/smvd/get/instagram?url=${this.url}`,
+      {
+        headers: {
+          "x-rapidapi-host": "social-media-video-downloader.p.rapidapi.com",
+          "x-rapidapi-key": RAPID_API_KEY ?? "",
+        },
+      },
     );
 
-    const data = await res.json();
-    return data.result[0].url;
+    const { links } = await res.json();
+
+    return getVideoUrlFromLink(links);
   }
 
   static register: Middleware = async (ctx) => {
